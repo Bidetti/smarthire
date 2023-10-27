@@ -22,7 +22,7 @@ Future<void> registerUser(String email, String password) async {
 }
 
 Future<void> loginUser(String email, String password) async {
-  final url = 'http://seu-servidor.com/login';
+  const url = 'http://localhost:5523/api/login';
   final response = await http.post(
     Uri.parse(url),
     body: json.encode({

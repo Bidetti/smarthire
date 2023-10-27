@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:smarthire/service/auth_service.dart';
+import 'package:smarthire/service/users_service.dart';
 
-const users = {
-  'dribbble@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-};
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -14,11 +12,10 @@ class LoginScreen extends StatelessWidget {
   Future<String?> _authUser(LoginData data) {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(data.name)) {
-        return 'User not exists';
-      }
-      if (users[data.name] != data.password) {
-        return 'Password does not match';
+      try {
+        loginUser(data.name, data.password);
+      } catch (e) {
+        return e.toString();
       }
       return null;
     });
@@ -31,11 +28,17 @@ class LoginScreen extends StatelessWidget {
     });
   }
 
-  Future<String> _recoverPassword(String name) {
-    debugPrint('Name: $name');
+  Future<String> _recoverPassword(String email) {
+    debugPrint('Name: $email');
     return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
+      try {
+        final user = getUserByEmail(email);
+        if (user == null) {
+          return 'No user with this email';
+        }
+        return 'We sent the link to your email to recover your password';
+            } catch (e) {
+        return e.toString();
       }
       return 'null';
     });
