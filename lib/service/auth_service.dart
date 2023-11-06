@@ -32,26 +32,28 @@ Future<String?> registerUser(String nome, String cpf, String email, String senha
   }
 }
 
-Future<String?> loginUser(String email, String password) async {
+Future<bool> loginUser(String email, String password) async {
   const url = '$api/auth';
-  final response = await http.post(
-    Uri.parse(url),
-    body: json.encode({
-      'email': email,
-      'senha': password,
-    }),
-    headers: {'Content-Type': 'application/json'},
-  );
-  if (response.statusCode == 200) {
-    // Login bem-sucedido
-    final token = json.decode(response.body)['token'];
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('jwt', token);
-    return null;
-  } else {
-    // Login falhou
-    return json.decode(response.body)['error'];
-    
+  try {
+    final response = await http.post(
+      Uri.parse(url),
+      body: json.encode({
+        'email': email,
+        'senha': password,
+      }),
+      headers: {'Content-Type': 'application/json'},
+    );
+    if (response.statusCode == 200) {
+      // Login successful
+      final token = json.decode(response.body)['token'];
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('jwt', token);
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    return false;
   }
 }
 

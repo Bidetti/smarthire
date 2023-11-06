@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smarthire/pages/homepage.dart';
+import 'package:smarthire/service/auth_service.dart';
 import 'package:validators/validators.dart';
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -11,11 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _TextEditingController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _TextEditingController.clear();
+    _emailController.clear();
+    _passwordController.clear();
     super.dispose();
   }
 
@@ -48,14 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 15),
                   ),
                 ),
-
                 const SizedBox(
                   height: 30,
                 ),
                 Container(
                   height: isEmailCorrect ? 280 : 200,
-                  // _formKey!.currentState!.validate() ? 200 : 600,
-                  // height: isEmailCorrect ? 260 : 182,
                   width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.3),
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.only(
                             left: 20, right: 20, bottom: 20, top: 20),
                         child: TextFormField(
-                          controller: _TextEditingController,
+                          controller: _emailController,
                           onChanged: (val) {
                             setState(() {
                               isEmailCorrect = isEmail(val);
@@ -91,6 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintText: 'Seu nome de usuário ou email...',
                             labelStyle: TextStyle(color: Colors.black),
                           ),
+                          validator: (value) {
+                            if (isEmailCorrect == false) {
+                              return 'Email inválido';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -98,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Form(
                           key: _formKey,
                           child: TextFormField(
+                            controller: _passwordController,
                             obscuringCharacter: '*',
                             obscureText: true,
                             decoration: const InputDecoration(
@@ -119,11 +127,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               hintText: 'Sua senha...',
                               labelStyle: TextStyle(color: Colors.black),
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty && value!.length < 5) {
-                                return 'Senha inválida!';
-                              }
-                            },
+                            validator: (value) => value!.isEmpty
+                                ? 'Senha não pode ser vazia'
+                                : null,
                           ),
                         ),
                       ),
@@ -140,23 +146,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ? Colors.red
                                       : const Color(0xFF003778),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 131, vertical: 20)
-                                  // padding: EdgeInsets.only(
-                                  //     left: 120, right: 120, top: 20, bottom: 20),
-                                  ),
-                              onPressed: () {
+                                      horizontal: 131, vertical: 20)),
+                              onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  // If the form is valid, display a snackbar. In the real world,
-                                  // you'd often call a server or save the information in a database.
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Processing Data')),
-                                  );
+                                  try {
+                                    final email = _emailController.text;
+                                    final password = _passwordController.text;
+                                    final response =
+                                        await loginUser(email, password);
+
+                                    if (response == true) {
+                                      scaffoldMessengerKey.currentState!
+                                          .showSnackBar(const SnackBar(
+                                              content:
+                                                  Text('Login bem-sucedido!')));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomePage()));
+                                    } else {
+                                      scaffoldMessengerKey.currentState!
+                                          .showSnackBar(SnackBar(
+                                              content: Text('Email ou senha incorretos!')));
+                                    }
+                                  } catch (e) {
+                                    scaffoldMessengerKey.currentState!
+                                        .showSnackBar(const SnackBar(
+                                            content: Text('Login falhou!')));
+                                  }
                                 }
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => LoginScreen()));
                               },
                               child: const Text(
                                 'ENTRAR',
@@ -166,51 +185,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Container(),
                     ],
                   ),
-                ),
-
-                //this is button
-                // const SizedBox(
-                //   height: 30,
-                // ),
-                // ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //         shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(10.0)),
-                //         backgroundColor: Colors.purple,
-                //         padding: EdgeInsets.symmetric(
-                //             horizontal: MediaQuery.of(context).size.width / 3.3,
-                //             vertical: 20)
-                //         // padding: EdgeInsets.only(
-                //         //     left: 120, right: 120, top: 20, bottom: 20),
-                //         ),
-                //     onPressed: () {
-                //       Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (context) => LoginScreen()));
-                //     },
-                //     child: Text(
-                //       'Sounds Good!',
-                //       style: TextStyle(fontSize: 17),
-                //     )), //
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Você ainda não possui uma conta?',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Cadastrar-se!',
-                        style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.w500),
-                      ),
-                    )
-                  ],
                 ),
               ],
             ),
