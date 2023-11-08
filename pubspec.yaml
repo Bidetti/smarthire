@@ -28,14 +28,17 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  google_fonts: ^6.1.0
-  http: ^1.1.0
-  lottie: ^2.7.0
-  shared_preferences: ^2.0.5
-  validators: ^3.0.0
+    
+      
+assets: assets/smarthire_branco.png
+google_fonts: ^6.1.0
+http: ^1.1.0
+lottie: ^2.7.0
+shared_preferences: ^2.0.5
+validators: ^3.0.0
+cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0
