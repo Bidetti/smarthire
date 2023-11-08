@@ -8,7 +8,7 @@ class CategoriasMenu extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        children: [
+        children: [ 
           Image.asset('assets/smarthire_branco.png'), // Adicione o caminho para a sua imagem aqui
           const Text(
             'Principais Categorias',
