@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'OpenSans',
             fontSize: 45.0,
             // fontWeight: FontWeight.w400,
-            color: Colors.orange,
+            color: Color.fromARGB(255, 55, 255, 0),
           ),
           labelLarge: const TextStyle(
             // OpenSans is similar to NotoSans but the uppercases look a bit better IMO
