@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smarthire/pages/login.dart';
+import 'package:smarthire/pages/auth/login.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,7 +33,7 @@ Future<String?> registerUser(String nome, String cpf, String email, String senha
   }
 }
 
-Future<bool> loginUser(String email, String password) async {
+Future<int> loginUser(String email, String password) async {
   const url = '$api/auth';
   try {
     final response = await http.post(
@@ -41,19 +42,21 @@ Future<bool> loginUser(String email, String password) async {
         'email': email,
         'senha': password,
       }),
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+      'Content-Type': 'application/json',
+      },
     );
     if (response.statusCode == 200) {
       // Login successful
       final token = json.decode(response.body)['token'];
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('jwt', token);
-      return true;
+      return response.statusCode;
     } else {
-      return false;
+      return response.statusCode;
     }
   } catch (e) {
-    return false;
+    return 500;
   }
 }
 
