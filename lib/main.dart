@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smarthire/pages/login.dart';
+import 'package:smarthire/pages/auth/cadastro.dart';
+import 'package:smarthire/pages/auth/login.dart';
+import 'package:smarthire/pages/homepage.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -18,10 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login Demo',
+      title: 'SmartHire',
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginScreen(),
+        '/cadastro': (context) => const CadastroScreen(),
+        '/home': (context) => const HomeScreen(),
       },
     );
   }

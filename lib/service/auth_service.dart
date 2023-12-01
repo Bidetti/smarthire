@@ -1,11 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smarthire/config.dart' as config;
 
-const api = 'http://localhost:5523/api';
+const api = config.api;
 
 // Função para registrar um usuário (obrigatorios: nome, cpf, email, senha, endereço, tipo | opcionais: telefone, dataNascimento, rg, fotourl)
-Future<String?> registerUser(String nome, String cpf, String email, String senha, String endereco, String tipo, {String? telefone, String? dataNascimento, String? rg, String? fotourl}) async {
+Future<String?> registerUser(String nome, String cpf, String email,
+    String senha, String endereco, String tipo,
+    {String? telefone,
+    String? dataNascimento,
+    String? rg,
+    String? fotourl}) async {
   const url = '$api/user';
   final response = await http.post(
     Uri.parse(url),
@@ -32,7 +38,7 @@ Future<String?> registerUser(String nome, String cpf, String email, String senha
   }
 }
 
-Future<bool> loginUser(String email, String password) async {
+Future<int> loginUser(String email, String password) async {
   const url = '$api/auth';
   try {
     final response = await http.post(
@@ -41,19 +47,21 @@ Future<bool> loginUser(String email, String password) async {
         'email': email,
         'senha': password,
       }),
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+      },
     );
     if (response.statusCode == 200) {
       // Login successful
       final token = json.decode(response.body)['token'];
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('jwt', token);
-      return true;
+      return response.statusCode;
     } else {
-      return false;
+      return response.statusCode;
     }
   } catch (e) {
-    return false;
+    return 500;
   }
 }
 
@@ -66,7 +74,7 @@ Future<String?> recoverPassword(String email) async {
   const url = '$api/auth/recover';
   final response = await http.post(
     Uri.parse(url),
-    body: json.encode({ 
+    body: json.encode({
       'email': email,
     }),
     headers: {'Content-Type': 'application/json'},
@@ -121,5 +129,24 @@ Future<String?> resetPassword(String password) async {
   } else {
     // Senha não alterada
     return json.decode(response.body)['error'];
+  }
+}
+
+Future<bool> verifyJWT() async {
+  const url = '$api/auth/verifyjwt';
+  final prefs = await SharedPreferences.getInstance();
+  final response = await http.get(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${prefs.getString('jwt')}',
+    },
+  );
+  final body = json.decode(response.body);
+
+  if (response.statusCode == 200) {
+    return body['jwt'];
+  } else {
+    return false;
   }
 }
