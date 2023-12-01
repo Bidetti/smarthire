@@ -8,8 +8,6 @@ class CategoriasMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Padding( 
-          padding: const EdgeInsets.all(8.0), 
           child: Column(
             children: [
               Image.asset('assets/smarthire_branco.png'), // Adicione o caminho para a sua imagem aqui
@@ -20,9 +18,10 @@ class CategoriasMenu extends StatelessWidget {
                   color: Color.fromARGB(255, 121, 134, 152), 
                   decoration: TextDecoration.none,),
               ),
-                Wrap(children: [
+                Wrap(
+                  children: [
                   Padding(
-                    padding: const EdgeInsets.all(20.0), 
+                    padding: const EdgeInsets.all(12.0), 
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(26), 
@@ -37,7 +36,7 @@ class CategoriasMenu extends StatelessWidget {
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Icon(Icons.construction, color: Color.fromARGB(255, 0, 0, 0), size: 150),
+                            Icon(Icons.hardware, color: Color.fromARGB(255, 0, 0, 0), size: 150),
                             Text('Pedreiro', style: TextStyle(color: Color.fromARGB(255, 121, 134, 152), fontSize: 26,), textAlign: TextAlign.center)
                           ],
                         ),
@@ -45,7 +44,7 @@ class CategoriasMenu extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                          padding: const EdgeInsets.all(20.0), 
+                          padding: const EdgeInsets.all(12.0), 
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(26), 
@@ -80,7 +79,7 @@ class CategoriasMenu extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(20.0), 
+                          padding: const EdgeInsets.all(12.0), 
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(26), 
@@ -117,7 +116,6 @@ class CategoriasMenu extends StatelessWidget {
                 ]
                 ),
             ],
-          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -139,7 +137,7 @@ class CategoriasMenu extends StatelessWidget {
             label:'Projects',
           )
         ],
-      ),
+      )
     );
   }
 }
