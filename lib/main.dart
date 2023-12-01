@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smarthire/login.dart';
+import 'package:smarthire/pages/dimi/projects.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/': (context) => const Projects(),
       },
     );
   }
