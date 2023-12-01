@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   content: const SingleChildScrollView(
                                     child: ListBody(
                                       children: <Widget>[
-                                        Text('Termos de uso vão aqui...'),
+                                        Text('Em breve...'),
                                       ],
                                     ),
                                   ),
