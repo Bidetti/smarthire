@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
-class Projects extends StatelessWidget {
+class Projects extends StatefulWidget {
   const Projects({ Key? key}): super(key: key);
+  
+  @override
+  _ProjectsState createState() => _ProjectsState();
+  
+}
 
+class _ProjectsState extends State<Projects> {
+  bool isVisible = false;
+  bool isVisible2 = false;
   @override
   Widget build(BuildContext context) {
-    bool isArrowForward = true;
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       body: Padding(
@@ -26,20 +33,40 @@ class Projects extends StatelessWidget {
                     decoration: TextDecoration.none,
                     ),
                   ),
-                  IconButton(
-                    icon:Icon(isArrowForward ? Icons.arrow_forward_ios : Icons.arrow_downward), 
-                    color: const Color.fromARGB(255, 121, 134, 152), 
-                    onPressed: (){isArrowForward = false;},
+                  TextButton(
+                    
+                    onPressed: (){
+                      setState((){
+                        isVisible = !isVisible;
+                      });
+                    },
+                    child: const Icon(
+                      (Icons.arrow_forward_ios), 
+                      color: Color.fromARGB(255, 121, 134, 152),
+                    ),
+                    
+                  ),
+
+                  Visibility(
+                    visible: isVisible,
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2), 
+                        color:const Color.fromARGB(255, 9, 114, 234),
+                      ),
+                    ),
                   ),
                 ]
               ),
             ),
               
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Row(
                 children:[
-                  Text(
+                  const Text(
                   'Projetos Finalizados',
                   style: TextStyle(
                     fontSize: 30, 
@@ -47,8 +74,32 @@ class Projects extends StatelessWidget {
                     color: Color.fromARGB(255, 121, 134, 152), 
                     decoration: TextDecoration.none,
                     ),
-                  ),Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 121, 134, 152),),
-      
+                  ),
+                  TextButton(
+                    
+                    onPressed: (){
+                      setState((){
+                        isVisible2 = !isVisible2;
+                      });
+                    },
+                    child: const Icon(
+                      (Icons.arrow_forward_ios), 
+                      color: Color.fromARGB(255, 121, 134, 152),
+                    ),
+                    
+                  ),
+
+                  Visibility(
+                    visible: isVisible2,
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2), 
+                        color:Color.fromARGB(255, 163, 9, 234),
+                      ),
+                    ),
+                  ),
                 ]
               ),
             ),
