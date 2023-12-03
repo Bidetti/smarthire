@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:smarthire/pages/auth/cadastro.dart';
 import 'package:smarthire/pages/auth/login.dart';
 import 'package:smarthire/pages/homepage.dart';
+import 'package:smarthire/pages/ranking.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginScreen(),
         '/cadastro': (context) => const CadastroScreen(),
         '/home': (context) => const HomeScreen(),
+        '/ranking': (context) => const Ranking(),
       },
     );
   }
