@@ -159,15 +159,35 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomAppBar(
-        color: Color.fromARGB(255, 4, 34, 168),
+      bottomNavigationBar: BottomAppBar(
+        color: const Color.fromARGB(255, 4, 34, 168),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Icon(Icons.notifications, color: Colors.white),
-            Icon(Icons.home, color: Colors.white),
-            Icon(Icons.person, color: Colors.white),
-            Icon(Icons.assignment_ind, color: Colors.white),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed('/notificacoes');
+              },
+              child: const Icon(Icons.notifications, color: Colors.white),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed('/home');
+              },
+              child: const Icon(Icons.home, color: Colors.white),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed('/perfil');
+              },
+              child: const Icon(Icons.person, color: Colors.white),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed('/indicacao');
+              },
+              child: const Icon(Icons.assignment_ind, color: Colors.white),
+            ),
           ],
         ),
       ),
