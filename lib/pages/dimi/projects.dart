@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Projects extends StatefulWidget {
   const Projects({ Key? key}): super(key: key);
@@ -11,8 +13,175 @@ class Projects extends StatefulWidget {
 class _ProjectsState extends State<Projects> {
   bool isVisible = false;
   bool isVisible2 = false;
+  final TextEditingController dateController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
+    void submit(){
+      Navigator.of(context).pop();
+    }
+    Future openDialog() => showDialog( //Pop-up "confs"
+      context: context,
+      builder: (context) => Theme(
+        data: Theme.of(context).copyWith(
+          inputDecorationTheme: InputDecorationTheme(
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Color.fromRGBO(187, 216, 255, 1), width: 3.0),
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+        ), 
+        child: AlertDialog(
+        content: SingleChildScrollView(
+          child: Column(
+          children: [
+            const TextField(
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: 'Reboque na parede',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromRGBO(187, 216, 255, 1),
+                  ),
+                )
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: dateController,
+              readOnly: true, // Prevent keyboard from appearing
+              decoration: const InputDecoration(
+                hintText: '28/10/2024',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromRGBO(187, 216, 255, 1),
+                  ),
+                ),
+              ),
+              onTap: () async {
+                DateTime? date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                if (date != null) {
+                  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                  dateController.text = formattedDate;
+                }
+              },
+            ),
+            const TextField(
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: 'R\$1.650,00',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromRGBO(187, 216, 255, 1),
+                  ),
+                )
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color:const Color.fromRGBO(187, 216, 255, 1),
+                  width: 3.5,
+                ),
+                borderRadius: BorderRadius.circular(50), 
+                color:const Color.fromARGB(255, 255, 255, 255),
+              
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.person, color: Color.fromRGBO(121, 134, 152, 1), size: 40,),
+                  Column(
+                    children:[
+                      Text('Brian Jhonson', style: TextStyle(color: Color.fromRGBO(121, 134, 152, 1)),),
+                      Row(
+                        children: [
+                          Text('Pedreiro ', style: TextStyle(color: Color.fromRGBO(121, 134, 152, 1), fontSize: 13),),
+                          Icon(Icons.star, color: Color.fromRGBO(121, 134, 152, 1)),
+                          Text('4.5', style: TextStyle(color: Color.fromRGBO(121, 134, 152, 1), fontSize: 13)),
+                          Icon(Icons.pin_drop, color: Color.fromRGBO(121, 134, 152, 1)),
+                          Text('12.0km', style: TextStyle(color: Color.fromRGBO(121, 134, 152, 1), fontSize: 13)),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            const Text(' Avaliar Prestador:'),
+            RatingBar.builder(
+              initialRating: 3,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: false,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => const Icon(
+                Icons.star,
+                color: Color.fromARGB(255, 0, 55, 120),
+              ),
+              onRatingUpdate: (rating) {},
+            ),
+
+          ],
+        ),
+        ), 
+        actions: [Row(
+          children: [
+            ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              elevation: MaterialStateProperty.all(0),
+            ),
+            onPressed: submit, 
+            child:const Row(
+              children: [
+                Icon(
+                  Icons.save, 
+                  color: Color.fromRGBO(0, 55, 120, 1),
+                ), 
+                Text(
+                  'Salvar',style: TextStyle(
+                    color: Color.fromRGBO(0, 55, 120, 1)
+                  ) ,
+                ),
+              ],
+            ) 
+            
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              elevation: MaterialStateProperty.all(0),
+            ),
+            onPressed: submit, 
+            child:const Row(
+              children: [
+                Icon(
+                  Icons.do_disturb, 
+                  color: Color.fromRGBO(176, 0, 0, 1),
+                ), 
+                Text(
+                  'Cancelar',style: TextStyle(
+                    color: Color.fromRGBO(176, 0, 0, 1)
+                  ) ,
+                ),
+              ],
+            ) 
+            
+          )
+          ],
+        )
+          
+        ],
+      ),
+      )
+    );
+
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       body: Padding(
@@ -112,31 +281,35 @@ class _ProjectsState extends State<Projects> {
                                   ),
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.create), 
-                                    color:const Color.fromARGB(255, 121, 134, 152),
-                                    onPressed: (){
-                                      Navigator.pushNamed(context, '/editproject');
-                                    }
-                                  ),
-                                  TextButton(
-                                    child: const Text(
+                              ElevatedButton(
+                                style:ButtonStyle(
+                                  elevation: MaterialStateProperty.all(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(
+                                    const Color.fromARGB(255, 255, 255, 255)
+                                  )
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.create,
+                                      color: Color.fromARGB(255, 121, 134, 152),
+                                    ),
+                                    Text(
                                       'Editar informações do Projeto',
                                       style: TextStyle(
                                         fontSize: 18, 
                                         fontWeight: FontWeight.w600, 
                                         color: Color.fromARGB(255, 121, 134, 152), 
                                         decoration: TextDecoration.none,
-                                      ) 
-                                    ),
-                                    onPressed: (){
-                                      Navigator.pushNamed(context, '/editproject');
-                                    
-                                    },
-                                  )
-                                ],
+                                      
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                onPressed: (){
+                                  openDialog();
+                                },
+
                               ),
                               TextButton(
                                 onPressed: (){
@@ -247,7 +420,7 @@ class _ProjectsState extends State<Projects> {
                               const Align(
                                 alignment: Alignment.centerLeft,  
                                 child: Text(
-                                  'Preço Proposto: R\$ 450,00',
+                                  'Preço Final: R\$ 450,00',
                                   style: TextStyle(
                                     fontSize: 19, 
                                     fontWeight: FontWeight.w300, 
