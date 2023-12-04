@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; 
+import 'package:flutter/services.dart';
 import 'package:smarthire/pages/login.dart';
 import 'package:smarthire/pages/parme/categories_menu.dart';
 import 'package:smarthire/pages/parme/perfil_contratante.dart';
-
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -24,8 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Login Demo',
       initialRoute: '/',
       routes: {
-        '/': (context) => PerfilContratante(),
-
+        '/': (context) => const PerfilContratante(),
       },
     );
   }
