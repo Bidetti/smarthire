@@ -19,6 +19,7 @@ class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfileSettingsScreenState createState() => _ProfileSettingsScreenState();
 }
 
@@ -49,14 +50,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             // Botão "Editar foto de perfil"
             ElevatedButton.icon(
               onPressed: () {
-                // Adicione a lógica para editar a foto de perfil aqui
+                // logica de edição da foto aqui
               },
               icon: const Icon(Icons.edit),
               label: const Text('Editar foto de perfil'),
             ),
             const SizedBox(height: 10.0),
-
-            // Restante do conteúdo
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -79,7 +78,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                   const SizedBox(height: 10.0),
 
-                  // Celular
                   Container(
                     width: double.infinity,
                     child: const Align(
@@ -95,7 +93,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                   const SizedBox(height: 10.0),
 
-                  // Bio
                   Container(
                     width: double.infinity,
                     child: const Align(
@@ -118,17 +115,15 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       // Botão de Salvar
                       ElevatedButton(
                         onPressed: () {
-                          // Adicione a lógica para salvar as informações aqui
+                          // lógica para salvar as informações aqui
                         },
                         child: const Text('Salvar'),
                       ),
-                      const SizedBox(
-                          height: 20.0), // Espaçamento entre os botões
+                      const SizedBox(height: 20.0),
                       // Botão de Voltar
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .pop(); // Para voltar, você pode usar o pop
+                          Navigator.of(context).pop();
                         },
                         child: const Text('Voltar'),
                       ),
