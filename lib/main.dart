@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:smarthire/pages/auth/cadastro.dart';
 import 'package:smarthire/pages/auth/login.dart';
 import 'package:smarthire/pages/homepage.dart';
+import 'package:smarthire/pages/config_perfil.dart';
 import 'package:smarthire/pages/ranking.dart';
 
 void main() {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginScreen(),
         '/cadastro': (context) => const CadastroScreen(),
         '/home': (context) => const HomeScreen(),
+        '/perfil-config': (context) => Config(),
         '/ranking': (context) => const Ranking(),
       },
     );
