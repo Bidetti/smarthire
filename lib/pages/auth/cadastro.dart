@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 
 class CadastroScreen extends StatefulWidget {
-  const CadastroScreen({super.key});
+  const CadastroScreen({Key? key}) : super(key: key);
 
   @override
   _CadastroScreenState createState() => _CadastroScreenState();
@@ -16,6 +16,176 @@ class _CadastroScreenState extends State<CadastroScreen> {
   bool _birthdayError = false;
   bool _phoneError = false;
   int _selectedUserType = 0;
+
+  Widget _buildPrestadorWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _criarTextFormField(
+          label: 'CEP',
+          placeholder: 'Ex: 12345-678',
+          icone: Icons.location_on,
+          keyboardType: TextInputType.number,
+          validator: (value) {
+            // Adicione a lógica de validação, se necessário
+            return null;
+          },
+        ),
+        const SizedBox(height: 16.0),
+        _criarTextFormField(
+          label: 'Endereço',
+          placeholder: 'Ex: Rua ABC',
+          icone: Icons.location_on,
+          keyboardType: TextInputType.text,
+          validator: (value) {
+            // Adicione a lógica de validação, se necessário
+            return null;
+          },
+        ),
+        const SizedBox(height: 16.0),
+        Row(
+          children: [
+            Expanded(
+              child: _criarTextFormField(
+                label: 'Número',
+                placeholder: 'Ex: 123',
+                icone: Icons.location_on,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  // Adicione a lógica de validação, se necessário
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: _criarTextFormField(
+                label: 'Complemento',
+                placeholder: 'Ex: Apto 4',
+                icone: Icons.location_on,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  // Adicione a lógica de validação, se necessário
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16.0),
+        _criarTextFormField(
+          label: 'RG',
+          placeholder: 'Ex: 123456789',
+          icone: Icons.badge,
+          keyboardType: TextInputType.number,
+          validator: (value) {
+            // Adicione a lógica de validação, se necessário
+            return null;
+          },
+        ),
+        const SizedBox(height: 16.0),
+        // Adicione um widget para escolher uma foto de perfil, se necessário
+      ],
+    );
+  }
+
+  Widget _buildContratanteWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _criarTextFormField(
+          label: 'CEP',
+          placeholder: 'Ex: 12345-678',
+          icone: Icons.location_on,
+          keyboardType: TextInputType.number,
+          validator: (value) {
+            // Adicione a lógica de validação, se necessário
+            return null;
+          },
+        ),
+        const SizedBox(height: 16.0),
+        _criarTextFormField(
+          label: 'Endereço',
+          placeholder: 'Ex: Rua ABC',
+          icone: Icons.location_on,
+          keyboardType: TextInputType.text,
+          validator: (value) {
+            // Adicione a lógica de validação, se necessário
+            return null;
+          },
+        ),
+        const SizedBox(height: 16.0),
+        Row(
+          children: [
+            Expanded(
+              child: _criarTextFormField(
+                label: 'Número',
+                placeholder: 'Ex: 123',
+                icone: Icons.location_on,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  // Adicione a lógica de validação, se necessário
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: _criarTextFormField(
+                label: 'Complemento',
+                placeholder: 'Ex: Apto 4',
+                icone: Icons.location_on,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  // Adicione a lógica de validação, se necessário
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16.0),
+        // Adicione um widget para escolher uma foto de perfil, se necessário
+      ],
+    );
+  }
+
+  Widget _criarTextFormField({
+    required String label,
+    required String placeholder,
+    required IconData icone,
+    required TextInputType keyboardType,
+    bool isSenha = false,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      obscureText: isSenha,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Color.fromARGB(255, 4, 34, 168)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        prefixIcon: Icon(
+          icone,
+          color: const Color.fromARGB(255, 4, 34, 168),
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        labelText: label,
+        hintText: placeholder,
+        labelStyle: const TextStyle(color: Colors.black, fontSize: 16.0),
+      ),
+      validator: validator,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +216,22 @@ class _CadastroScreenState extends State<CadastroScreen> {
             ),
             const SizedBox(height: 24.0),
             _criarTextFormField(
-                label: 'E-mail',
-                placeholder: 'Ex: joao.silva@gmail.com',
-                icone: Icons.email,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (!isEmail(value!)) {
-                    _emailError = true;
-                    return 'E-mail inválido';
-                  } else if (value.isEmpty) {
-                    _emailError = true;
-                    return 'E-mail não pode ser vazio';
-                  }
-                  _emailError = false;
-                  return null;
-                }),
+              label: 'E-mail',
+              placeholder: 'Ex: joao.silva@gmail.com',
+              icone: Icons.email,
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (!isEmail(value!)) {
+                  _emailError = true;
+                  return 'E-mail inválido';
+                } else if (value.isEmpty) {
+                  _emailError = true;
+                  return 'E-mail não pode ser vazio';
+                }
+                _emailError = false;
+                return null;
+              },
+            ),
             const SizedBox(height: 24.0),
             _criarTextFormField(
               label: 'Senha',
@@ -134,7 +305,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Cadastrar como:',
-                    style: TextStyle(fontSize: 16), // Increase the font size
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
                 Row(
@@ -168,6 +339,10 @@ class _CadastroScreenState extends State<CadastroScreen> {
               ],
             ),
             const SizedBox(height: 24.0),
+            _selectedUserType == 0
+                ? _buildPrestadorWidget()
+                : _buildContratanteWidget(),
+            const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: _nameError ||
                       _emailError ||
@@ -180,18 +355,22 @@ class _CadastroScreenState extends State<CadastroScreen> {
                       Navigator.of(context).pushNamed('/home');
                     },
               style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  backgroundColor: !_nameError &&
-                          !_emailError &&
-                          !_cpfError &&
-                          !_passwordError &&
-                          !_birthdayError &&
-                          !_phoneError
-                      ? const Color(0xFF003778)
-                      : const Color(0xFF003778).withOpacity(0.7),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 100, vertical: 27)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                backgroundColor: !_nameError &&
+                        !_emailError &&
+                        !_cpfError &&
+                        !_passwordError &&
+                        !_birthdayError &&
+                        !_phoneError
+                    ? const Color(0xFF003778)
+                    : const Color(0xFF003778).withOpacity(0.7),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 12.0,
+                ),
+              ),
               child: const Text(
                 'CONTINUAR',
                 style: TextStyle(
@@ -242,44 +421,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _criarTextFormField({
-    required String label,
-    required String placeholder,
-    required IconData icone,
-    required TextInputType keyboardType,
-    bool isSenha = false,
-    // possibilidade de criar um validator
-    String? Function(String?)? validator,
-  }) {
-    return TextFormField(
-      obscureText: isSenha,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Color.fromARGB(255, 4, 34, 168)),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        prefixIcon: Icon(
-          icone,
-          color: const Color.fromARGB(255, 4, 34, 168),
-        ),
-        filled: true,
-        fillColor: Colors.grey[200],
-        labelText: label,
-        hintText: placeholder,
-        labelStyle: const TextStyle(color: Colors.black, fontSize: 16.0),
-      ),
-      validator: validator,
     );
   }
 }
