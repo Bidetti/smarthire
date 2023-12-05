@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smarthire/login.dart';
+import 'package:smarthire/pages/auth/cadastro.dart';
+import 'package:smarthire/pages/auth/login.dart';
+import 'package:smarthire/pages/categorias.dart';
+import 'package:smarthire/pages/config_perfil.dart';
+import 'package:smarthire/pages/perfil.dart';
+import 'package:smarthire/pages/projects.dart';
+import 'package:smarthire/pages/ranking.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -18,45 +26,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login Demo',
-      theme: ThemeData(
-        textSelectionTheme:
-            const TextSelectionThemeData(cursorColor: Colors.orange),
-        // fontFamily: 'SourceSansPro',
-        textTheme: TextTheme(
-          displaySmall: const TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 45.0,
-            // fontWeight: FontWeight.w400,
-            color: Colors.orange,
-          ),
-          labelLarge: const TextStyle(
-            // OpenSans is similar to NotoSans but the uppercases look a bit better IMO
-            fontFamily: 'OpenSans',
-          ),
-          bodySmall: TextStyle(
-            fontFamily: 'NotoSans',
-            fontSize: 12.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.deepPurple[300],
-          ),
-          displayLarge: const TextStyle(fontFamily: 'Quicksand'),
-          displayMedium: const TextStyle(fontFamily: 'Quicksand'),
-          headlineMedium: const TextStyle(fontFamily: 'Quicksand'),
-          headlineSmall: const TextStyle(fontFamily: 'NotoSans'),
-          titleLarge: const TextStyle(fontFamily: 'NotoSans'),
-          titleMedium: const TextStyle(fontFamily: 'NotoSans'),
-          bodyLarge: const TextStyle(fontFamily: 'NotoSans'),
-          bodyMedium: const TextStyle(fontFamily: 'NotoSans'),
-          titleSmall: const TextStyle(fontFamily: 'NotoSans'),
-          labelSmall: const TextStyle(fontFamily: 'NotoSans'),
-        ),
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
-            .copyWith(secondary: Colors.orange),
-      ),
+      navigatorKey: navigatorKey,
+      title: 'SmartHire',
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginScreen(),
+        '/cadastro': (context) => const CadastroScreen(),
+        '/home': (context) => const CategoriasScreen(),
+        '/perfil-config': (context) => const ProfileSettingsScreen(),
+        '/ranking': (context) => const RankingScreen(),
+        '/perfil': (context) => const PerfilScreen(),
+        '/projetos': (context) => const ProjectScreen(),
       },
     );
   }
