@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthire/service/auth_service.dart';
+import 'package:smarthire/service/users_service.dart';
 import 'package:validators/validators.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -72,11 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 15),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
                 Container(
-                  height: 310,
+                  height: 350,
                   width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.3),
@@ -229,6 +228,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     final response =
                                         await loginUser(email, password);
                                     if (response == 200) {
+                                      final user = await getUserByEmail(email);
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setString(
+                                          'userID', user!['_id']);
+                                      await prefs.setString(
+                                          'userEmail', user['email']);
                                       showSnackBar('Sucesso: Login efetuado!',
                                           Colors.green[700]!);
                                       navigatePushNamed('/home');

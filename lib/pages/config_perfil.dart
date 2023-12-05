@@ -1,19 +1,6 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const Config());
-}
-
-class Config extends StatelessWidget {
-  const Config({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ProfileSettingsScreen(),
-    );
-  }
-}
+import 'package:smarthire/main.dart';
+import 'package:smarthire/service/auth_service.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({Key? key}) : super(key: key);
@@ -24,6 +11,44 @@ class ProfileSettingsScreen extends StatefulWidget {
 }
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
+  Map<String, dynamic> userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _auth();
+  }
+
+  Future<void> _logout() async {
+    logoutUser();
+    navigatePushNamed('/');
+  }
+
+  Future<bool> _auth() async {
+    final jwt = await verifyJWT();
+    if (jwt == true) {
+      return true;
+    }
+    _logout();
+    showSnackBar('Erro: Não foi possível autenticar sua conexão.', Colors.red);
+    return false;
+  }
+
+  void showSnackBar(String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+      ),
+    );
+  }
+
+  void navigatePushNamed(String route, {Object? arguments}) {
+    if (mounted && navigatorKey.currentState != null) {
+      navigatorKey.currentState?.pushNamed(route, arguments: arguments);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +68,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             // Foto de Perfil
             const CircleAvatar(
               radius: 70.0,
-              backgroundImage: AssetImage('assets/profile_image.png'),
+              backgroundImage: AssetImage('assets/image_missing.png'),
             ),
             const SizedBox(height: 10.0),
 
@@ -63,9 +88,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Nome Completo
-                  Container(
+                  const SizedBox(
                     width: double.infinity, // Ocupa toda a largura disponível
-                    child: const Align(
+                    child: Align(
                       alignment: Alignment.center,
                       child: TextField(
                         decoration: InputDecoration(
@@ -78,9 +103,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                   const SizedBox(height: 10.0),
 
-                  Container(
+                  const SizedBox(
                     width: double.infinity,
-                    child: const Align(
+                    child: Align(
                       alignment: Alignment.center,
                       child: TextField(
                         decoration: InputDecoration(
@@ -93,9 +118,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                   const SizedBox(height: 10.0),
 
-                  Container(
+                  const SizedBox(
                     width: double.infinity,
-                    child: const Align(
+                    child: Align(
                       alignment: Alignment.center,
                       child: TextField(
                         maxLines: 3,
